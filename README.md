@@ -9,37 +9,40 @@ preference as well as a judge does.
 
 | Judge | Agreement w/ humans (non-tie) | Cohen's κ | Notes |
 |---|---|---|---|
-| Random | TBD | ~0 | floor |
-| Longer-answer heuristic | TBD | TBD | the honest baseline |
-| Deterministic feature model | TBD | TBD | length/format/refusal features, 5-fold CV |
-| This judge (`JUDGE_MODEL`, both orders + consistency) | TBD | TBD | 300-pair stratified subsample |
-| GPT-4 (released verdicts, Zheng et al.) | TBD (~85% reported) | TBD | recomputed from released data |
-| Human ↔ human | TBD (~81% reported) | — | ceiling |
+| Random | 33.3% | ~0 | floor (uniform over {a,b,tie}) |
+| Longer-answer heuristic | 69.1% | 0.38 | the honest baseline |
+| Deterministic feature model | 51.7% acc | — | length/format/refusal, 5-fold CV |
+| This judge (`claude-sonnet-4-6`, both orders + consistency) | **88.1%** [84.0, 91.9] | 0.76 | 300-pair stratified subsample |
+| GPT-4 (released verdicts, Zheng et al.) | 85.8% [82.8, 88.7] | 0.53 | recomputed from released data |
+| Human ↔ human | 82.6% | — | ceiling |
 
-TBD: one-sentence ablation finding (swap-consistency effect, with CI).
+Ablation (swap-consistency): aggregated 88.1% vs order-ab 87.4% / order-ba 86.0% — gain inside CI overlap; tie rate rises 9%→15%. Position flip rate 4.9%, first-position win 49.1%.
 
 ## Quickstart
 
 ```bash
-pip install -e ".[dev]"
-make data          # pull lmsys/mt_bench_human_judgments (pinned revision)
-make reproduce     # GPT-4 vs human agreement + kappa from released data, no API key needed
-make judge         # run your own judge (set OPENAI_API_KEY or ANTHROPIC_API_KEY, JUDGE_MODEL)
-make gate          # the CI check: deterministic eval on cached verdicts
+pip install -e ".[dev]"   # or: export PYTHONPATH=.
+make data                 # pull lmsys/mt_bench_human_judgments (pinned revision)
+make reproduce            # GPT-4 vs human, $0
+make baselines
+# live judge (vault-injected key; never paste secrets):
+eval "$(vault env)" && make judge
+make reproduce-live
+make gate
 ```
 
 ## How it works
 
 `eval/` is the measurement rig (agreement with/without ties, Cohen's κ, seeded bootstrap
-CIs over items); `src/` is the judge under test (paper-faithful pairwise prompt, temperature 0,
-each pair judged in both answer orders, swap-inconsistent verdicts scored as ties). CI reruns
-the offline eval on every push and fails on agreement regression or verdict-distribution shift.
+CIs); `src/` is the judge under test (paper-faithful pairwise prompt, temperature 0,
+each pair judged in both answer orders, swap-inconsistent verdicts scored as ties). CI
+reruns the offline eval on cached verdicts every push.
 
 ## Limitations
 
-- Live-judge numbers are on a 300-pair stratified subsample; bootstrap CIs are reported and wide relative to few-point effects.
-- Turn-1 conversations only; single judge model; English only.
-- Agreement is measured against human *preference*, which is not correctness — categories with objective answers are where the deterministic feature model closes most of the gap.
+- Live-judge numbers are on a 300-pair stratified subsample; bootstrap CIs are wide relative to few-point effects.
+- Turn-1 conversations only; single judge model (`claude-sonnet-4-6`); English only.
+- Agreement is measured against human *preference*, not correctness — feature model closes more of the gap on math/coding (~61–64%) than writing/humanities (~44–51%).
 
 ## Reference
 
