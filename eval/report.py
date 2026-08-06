@@ -9,7 +9,7 @@ import pandas as pd
 
 # Fill from your provider's current price sheet; used for estimates only — the invoice is
 # the source of truth for the number that goes in docs/RESULTS.md.
-PRICE_PER_MTOK = {"input": None, "output": None}  # TODO(judge runs): set for JUDGE_MODEL
+PRICE_PER_MTOK = {"input": 3.0, "output": 15.0}  # Claude Sonnet 4 USD / MTok (provider sheet)
 
 
 def summarize_runs() -> None:
@@ -20,7 +20,10 @@ def summarize_runs() -> None:
     lat = df["latency_ms"]
     usage = pd.json_normalize(df["usage"])
     print(f"calls: {len(df)}")
-    print(f"parse failures: {(df['verdict'].isna()).mean():.1%}")
+    if "parse_ok" in df.columns:
+        print(f"parse failures: {(~df['parse_ok']).mean():.1%}")
+    else:
+        print(f"parse failures: {(df['verdict'].isna()).mean():.1%}")
     print(f"latency p50/p95: {lat.quantile(.5):.0f} / {lat.quantile(.95):.0f} ms")
     for col in usage.columns:
         print(f"tokens {col}: {usage[col].sum():,}")

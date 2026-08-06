@@ -1,0 +1,62 @@
+{
+  "features": {
+    "overall_acc": 0.5171339563862928,
+    "n": 1284,
+    "per_category": {
+      "writing": {
+        "acc": 0.5126582278481012,
+        "n": 158
+      },
+      "roleplay": {
+        "acc": 0.5336538461538461,
+        "n": 208
+      },
+      "extraction": {
+        "acc": 0.4778761061946903,
+        "n": 113
+      },
+      "reasoning": {
+        "acc": 0.5,
+        "n": 150
+      },
+      "math": {
+        "acc": 0.6394557823129252,
+        "n": 147
+      },
+      "coding": {
+        "acc": 0.6081081081081081,
+        "n": 148
+      },
+      "stem": {
+        "acc": 0.44505494505494503,
+        "n": 182
+      },
+      "humanities": {
+        "acc": 0.43820224719101125,
+        "n": 178
+      }
+    },
+    "coefficients": {
+      "len_chars_ratio": 0.6246653108225109,
+      "n_code_blocks_ratio": 0.1252879699854332,
+      "n_list_items_ratio": -0.088256939277582,
+      "n_headers_ratio": 0.022927843812308554,
+      "refusal_a": -0.10022479852082274,
+      "refusal_b": 0.09022099796739824
+    },
+    "target": "binary_model_a_vs_model_b_drop_ties",
+    "model": "LogisticRegression_5fold_CV",
+    "qmin": 81
+  },
+  "verbosity_offline": {
+    "human": {
+      "longer_win_rate": 0.6913385826771653,
+      "n": 1270
+    },
+    "gpt4_released": {
+      "longer_win_rate": 0.7580645161290323,
+      "n": 868
+    },
+    "note": "this_judge TBD until make judge"
+  }
+}

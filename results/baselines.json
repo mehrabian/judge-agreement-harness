@@ -1,0 +1,21 @@
+{
+  "random_expected": 0.3333333333333333,
+  "longer_answer": {
+    "with_ties": {
+      "agree": 0.5364120781527532,
+      "kappa": 0.2563408460984361,
+      "n": 1689
+    },
+    "no_ties": {
+      "agree": 0.6913385826771653,
+      "kappa": 0.38241985624861996,
+      "n": 1270
+    }
+  },
+  "human_human": {
+    "with_ties": 0.641914191419142,
+    "n_pairs_with_ties": 606,
+    "no_ties": 0.8264248704663213,
+    "n_pairs_no_ties": 386
+  }
+}

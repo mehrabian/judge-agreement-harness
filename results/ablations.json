@@ -1,0 +1,150 @@
+{
+  "position": {
+    "n_pairs": 300,
+    "n_both_decisive": 268,
+    "flip_rate_decisive": 0.048507462686567165,
+    "first_position_win_rate": 0.4909090909090909,
+    "inconsistent_rate": 0.09,
+    "falsifier": "flip_rate ~ noise and first_position_win_rate ~ 0.5"
+  },
+  "swap": {
+    "order_ab": {
+      "with_ties": {
+        "agree": 0.6576354679802956,
+        "kappa": 0.47236246680878113,
+        "n": 406
+      },
+      "no_ties": {
+        "agree": 0.8741007194244604,
+        "kappa": 0.7478098595199834,
+        "n": 278,
+        "ci95": [
+          0.8333333333333334,
+          0.9117675231011945
+        ]
+      }
+    },
+    "order_ab_tie_rate": 0.09,
+    "order_ba": {
+      "with_ties": {
+        "agree": 0.6650246305418719,
+        "kappa": 0.4820359843154912,
+        "n": 406
+      },
+      "no_ties": {
+        "agree": 0.8596491228070176,
+        "kappa": 0.7171777314676987,
+        "n": 285,
+        "ci95": [
+          0.8178499034749035,
+          0.898989898989899
+        ]
+      }
+    },
+    "order_ba_tie_rate": 0.07666666666666666,
+    "aggregated": {
+      "with_ties": {
+        "agree": 0.6748768472906403,
+        "kappa": 0.5013770003721623,
+        "n": 406
+      },
+      "no_ties": {
+        "agree": 0.8810408921933085,
+        "kappa": 0.760809158608425,
+        "n": 269,
+        "ci95": [
+          0.8401449814126395,
+          0.9190305727554179
+        ]
+      }
+    },
+    "aggregated_tie_rate": 0.15,
+    "falsifier": "aggregated no_ties agree within CI of single-order"
+  },
+  "verbosity": {
+    "human": {
+      "longer_win_rate": 0.6913385826771653,
+      "n": 1270
+    },
+    "this_judge": {
+      "longer_win_rate": 0.756,
+      "n": 250
+    },
+    "gpt4_released": {
+      "longer_win_rate": 0.7428571428571429,
+      "n": 455
+    },
+    "judge_minus_human": 0.0646614173228347,
+    "note": "gap vs humans is the bias estimate; raw rate confounded by quality"
+  },
+  "features": {
+    "overall_acc": 0.5171339563862928,
+    "n": 1284,
+    "per_category": {
+      "writing": {
+        "acc": 0.5126582278481012,
+        "n": 158
+      },
+      "roleplay": {
+        "acc": 0.5336538461538461,
+        "n": 208
+      },
+      "extraction": {
+        "acc": 0.4778761061946903,
+        "n": 113
+      },
+      "reasoning": {
+        "acc": 0.5,
+        "n": 150
+      },
+      "math": {
+        "acc": 0.6394557823129252,
+        "n": 147
+      },
+      "coding": {
+        "acc": 0.6081081081081081,
+        "n": 148
+      },
+      "stem": {
+        "acc": 0.44505494505494503,
+        "n": 182
+      },
+      "humanities": {
+        "acc": 0.43820224719101125,
+        "n": 178
+      }
+    },
+    "coefficients": {
+      "len_chars_ratio": 0.6246653108225109,
+      "n_code_blocks_ratio": 0.1252879699854332,
+      "n_list_items_ratio": -0.088256939277582,
+      "n_headers_ratio": 0.022927843812308554,
+      "refusal_a": -0.10022479852082274,
+      "refusal_b": 0.09022099796739824
+    },
+    "target": "binary_model_a_vs_model_b_drop_ties",
+    "model": "LogisticRegression_5fold_CV",
+    "qmin": 81
+  },
+  "protocol": {
+    "n": 50,
+    "disagreement_rate": 0.18,
+    "agree": {
+      "agree": 0.82,
+      "n": 50
+    },
+    "disagree_n": 9,
+    "pointwise_verdicts": {
+      "model_a": 23,
+      "model_b": 16,
+      "tie": 11
+    },
+    "pairwise_verdicts": {
+      "model_a": 24,
+      "model_b": 18,
+      "tie": 8
+    },
+    "falsifier": "protocols diverge on writing/roleplay more than extraction",
+    "sample": "live_judged_pairs_seed0"
+  }
+}

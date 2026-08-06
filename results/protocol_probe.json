@@ -1,0 +1,21 @@
+{
+  "n": 50,
+  "disagreement_rate": 0.18,
+  "agree": {
+    "agree": 0.82,
+    "n": 50
+  },
+  "disagree_n": 9,
+  "pointwise_verdicts": {
+    "model_a": 23,
+    "model_b": 16,
+    "tie": 11
+  },
+  "pairwise_verdicts": {
+    "model_a": 24,
+    "model_b": 18,
+    "tie": 8
+  },
+  "falsifier": "protocols diverge on writing/roleplay more than extraction",
+  "sample": "live_judged_pairs_seed0"
+}
