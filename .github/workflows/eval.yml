@@ -1,0 +1,17 @@
+name: eval-gate
+on: [push, pull_request]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: make test
+      # Deterministic: cached verdicts + released data snapshot only. No API keys in CI.
+      - run: make data
+      - run: make gate

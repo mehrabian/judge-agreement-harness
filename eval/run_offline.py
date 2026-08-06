@@ -1,0 +1,53 @@
+"""Offline agreement runs: released GPT-4 verdicts, or cached live-judge verdicts. $0.
+
+Complete once eval.agreement is implemented — this file is orchestration only.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+from pathlib import Path
+
+import pandas as pd
+
+from eval.agreement import align, summarize
+from eval.bootstrap import bootstrap_ci
+from src.data import load
+
+RESULTS = Path("results")
+
+
+def load_cached_live() -> pd.DataFrame:
+    """Latest run log -> one verdict per (item, order) -> aggregated verdict table.
+
+    Aggregation rule (swap consistency) lives in eval/ablations.py:aggregate_orders so the
+    on/off comparison uses the same code path.
+    """
+    from eval.ablations import aggregate_orders
+    runs = sorted(Path("results/runs").glob("*.jsonl"))
+    if not runs:
+        raise SystemExit("no run logs — `make judge` first")
+    df = pd.read_json(runs[-1], lines=True)
+    return aggregate_orders(df)
+
+
+def main(judge: str) -> None:
+    human = load("human")
+    other = load("gpt4_pair") if judge == "gpt4_pair" else load_cached_live()
+    aligned = align(human, other)
+    res = summarize(aligned)
+    # CI on the headline (non-tie agreement)
+    from eval.agreement import agreement
+    lo, hi = bootstrap_ci(aligned, lambda d: agreement(d, drop_ties=True)["agree"])
+    res["no_ties"]["ci95"] = [lo, hi]
+    res["n_items"] = len(aligned)
+    RESULTS.mkdir(exist_ok=True)
+    out = RESULTS / f"agreement_{judge}_human.json"
+    out.write_text(json.dumps(res, indent=2))
+    print(json.dumps(res, indent=2))
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--judge", choices=["gpt4_pair", "cached-live"], required=True)
+    main(ap.parse_args().judge)

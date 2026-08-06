@@ -1,0 +1,26 @@
+# Local working material, never part of the deliverable.
+# The real protection is that planning notes live in a sibling tree outside this
+# repo; these entries only guard against something being moved in later.
+*-private/
+private/
+.private/
+notes/
+scratch/
+
+# --- ordinary ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+data/raw/
+data/processed/
+runs/
+outputs/
+*.ckpt
+*.pt
+*.log
+.DS_Store
+.idea/
+.vscode/
