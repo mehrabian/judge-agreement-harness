@@ -10,9 +10,8 @@ from pathlib import Path
 
 import httpx
 
-# TODO(judge runs): pin to a specific commit hash instead of `main` (same reasoning as the dataset
-# revision — `main` can move under you).
-FASTCHAT_COMMIT = "main"
+# Pinned FastChat commit so pair-v2 / single-v1 cannot drift under us.
+FASTCHAT_COMMIT = "7ad1d6386288ba1a7862c11feb673425713eea5b"
 PROMPTS_URL = (
     "https://raw.githubusercontent.com/lm-sys/FastChat/"
     f"{FASTCHAT_COMMIT}/fastchat/llm_judge/data/judge_prompts.jsonl"

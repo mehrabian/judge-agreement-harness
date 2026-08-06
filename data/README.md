@@ -21,8 +21,9 @@ the repo README. Raw conversations are re-downloaded by `make data`, not committ
 make data
 # = python -m src.data --download   (pins DATASET_REVISION, writes data/processed/*.parquet)
 ```
-Pinned revision: `DATASET_REVISION` in `src/data.py` — set on first download (TBD), so reruns
-land on identical rows.
+Pinned revision: `f7d2896d2cc5d80f8b55c2bbc722613555233c25` (`DATASET_REVISION` in `src/data.py`).
+FastChat judge prompts pinned at commit `7ad1d6386288ba1a7862c11feb673425713eea5b`.
+
 
 ## Judge prompt provenance
 `pair-v2` pairwise template (and `single-v1` for the pointwise probe) fetched at a pinned

@@ -13,11 +13,15 @@ __pycache__/
 .venv/
 venv/
 .env
+.envrc
 .ipynb_checkpoints/
 data/raw/
 data/processed/
-runs/
+/runs/
 outputs/
+*.egg-info/
+results/verdicts/*BACKUP*
+results/verdicts/*REGRESSED*
 *.ckpt
 *.pt
 *.log

@@ -8,18 +8,23 @@ VERDICT_RE = re.compile(r"\[\[(A|B|C)\]\]")
 
 LABEL = {"A": "model_a", "B": "model_b", "C": "tie"}
 
+# Parse-failure rule (docs/DECISIONS.md): unparseable output is treated as tie
+# (matches Zheng et al.). Failures are counted and the rate is reported.
+PARSE_FAILURE_AS = "tie"
+
 
 def parse_verdict(text: str) -> str | None:
-    """Return 'model_a' | 'model_b' | 'tie', or None when no verdict token is found.
-
-    TODO(judge runs): decide what a None becomes downstream.
-      Upstream treats unparseable output as a tie; counting it as a win for either side
-      biases the judge toward whichever position the failure correlates with, and dropping
-      the row silently shrinks n. Whatever you choose: count the failures, report the rate
-      in docs/RESULTS.md, and record the rule in docs/DECISIONS.md.
-    """
+    """Return 'model_a' | 'model_b' | 'tie', or None when no verdict token is found."""
     matches = VERDICT_RE.findall(text)
     if not matches:
         return None
     # Last match wins: judges sometimes quote the format before deciding.
     return LABEL[matches[-1]]
+
+
+def verdict_or_tie(text: str) -> str:
+    """Parsed verdict, or PARSE_FAILURE_AS when the token is missing."""
+    v = parse_verdict(text)
+    if v is None:
+        return PARSE_FAILURE_AS
+    return v
